@@ -188,7 +188,7 @@ client.on('message', msg => {
         textArr.shift();
         say(msg, textArr.join(' ')).then(c => {
           if (c) msg.channel.send(c);
-        }); // Turning this into a function...
+        }); 
         break;
 
       case 'duel':
@@ -197,13 +197,21 @@ client.on('message', msg => {
           msg.channel.send(c);
         });
         break;
-
-      case 'help':
-        msg.channel.send("\nHi! I will play the first 10 seconds of any youtube video whenever you join a voice channel.\nThink WWE intro music style!\n**Commands:** \n`+entry save <url>`\n`+entry show`\n`+entry spongebob <less than 25 characters of text>` \n`+entry say <stuff>` \n`+entry duel [single|tag|match]`\n \n Please complain to fizal if I fuck up. ');
-      
+                
       default:
-        //I want this to default to the say case.
+        if (typeof(messageArray[1]) === "undefined") {
+          msg.channel.send("\nHi! I will play the first 10 seconds of any youtube video whenever you join a voice channel.\nThink WWE intro music style!\n**Commands:** \n`+entry save <url>`\n`+entry show`\n`+entry spongebob <less than 25 characters of text>` \n`+entry say <stuff>` \n`+entry duel [single|tag|match]`\n \n Please complain to fizal if I fuck up. ');
+        } else {
+              let textArr = messageArray.concat([]);
+              textArr.shift();
+              textArr.shift();
+              say(msg, textArr.join(' ')).then(c => {
+                if (c) msg.channel.send(c);
+              }); 
+        }
+        break; // break regardless of which statement executes
     }
+        
   } catch (e) {
     const channel = msg.guild.channels.find(ch => ch.name === 'entrybot-log');
     // Do nothing if the channel wasn't found on this server
